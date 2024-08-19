@@ -6,4 +6,3 @@ from typing import List, Union
 def sum_mixed_list(mxd_lst: List[Union[int, float]]) -> float:
     """Function definiton for complex mixed variable types"""
     return sum(mxd_lst)
-
