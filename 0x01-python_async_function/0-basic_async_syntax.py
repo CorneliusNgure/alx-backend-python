@@ -6,7 +6,7 @@ import random
 
 async def wait_random(max_delay: int = 10) -> float:
     """
-    Asynch coroutine that waits for a random delay between 0 and max_delay seconds.
+    Asynch coroutine that waits for random delay between 0 and max_delay secs.
 
     Args:
         max_delay (int): The maximum number of seconds to wait. Defaults to 10.
