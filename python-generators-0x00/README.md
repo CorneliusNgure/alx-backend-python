@@ -12,7 +12,10 @@
     - `name (VARCHAR, NOT NULL)`
     - `email (VARCHAR, NOT NULL)`
     - `age (DECIMAL,NOT NULL)`
-    - Populate the database with the sample data from this `[user_data.csv](https://s3.amazonaws.com/alx-intranet.hbtn.io/uploads/misc/2024/12/3888260f107e3701e3cd81af49ef997cf70b6395.csv?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIARDDGGGOUSBVO6H7D%2F20250907%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250907T140338Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=838b7e1a0c052df0c94b6dda430d3722bbea0a9f3a112cca9f57af2c614c8e16)
+    - Populate the database with the sample data from this `Populate the database with the sample data from [user_data.csv][csv-link]
+
+[csv-link]: (https://s3.amazonaws.com/alx-intranet.hbtn.io/uploads/misc/2024/12/3888260f107e3701e3cd81af49ef997cf70b6395.csv?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIARDDGGGOUSBVO6H7D%2F20250907%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250907T140338Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=838b7e1a0c052df0c94b6dda430d3722bbea0a9f3a112cca9f57af2c614c8e16)
+
 `
 #### Prototypes:
     - `def connect_db()`:- connects to the mysql database server
