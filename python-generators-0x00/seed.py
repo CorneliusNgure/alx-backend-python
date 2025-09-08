@@ -11,8 +11,8 @@ def connect_db():
     try:
         connection = mysql.connector.connect(
             host="localhost",
-            user="root",
-            password="password"
+            user="kings",
+            password="prenuptial"
         )
         if connection.is_connected():
             print("Connected to MySQL server")
@@ -39,8 +39,8 @@ def connect_to_prodev():
     try:
         connection = mysql.connector.connect(
             host="localhost",
-            user="root",
-            password="password",
+            user="kings",
+            password="prenuptial",
             database="ALX_prodev"
         )
         if connection.is_connected():
@@ -72,36 +72,41 @@ def create_table(connection):
 # ------------------------------
 # 5. Insert data from CSV
 # ------------------------------
-def insert_data(connection, data):
+
+def insert_data(connection, csv_file):
     cursor = connection.cursor()
-    
-    cursor.execute("SELECT COUNT(*) FROM user_data WHERE email = %s", (data["email"],))
-    exists = cursor.fetchone()[0]
-    
-    if exists == 0:
-        cursor.execute(
-            """
-            INSERT INTO user_data (user_id, name, email, age)
-            VALUES (%s, %s, %s, %s)
-            """,
-            (str(uuid.uuid4()), data["name"], data["email"], data["age"])
-        )
-        connection.commit()
-        print(f"Inserted: {data['name']}")
-    else:
-        print(f"Skipped (already exists): {data['email']}")
-    
+
+    with open(csv_file, "r", encoding="utf-8") as file:
+        reader = csv.reader(file)
+
+        # Skip header row if present
+        next(reader, None)
+
+        for row in reader:
+            name, email, age = row[0], row[1], row[2]
+
+            # check if email already exists
+            cursor.execute("SELECT COUNT(*) FROM user_data WHERE email = %s", (email,))
+            (count,) = cursor.fetchone()
+
+            if count == 0:
+                cursor.execute(
+                    "INSERT INTO user_data (user_id, name, email, age) VALUES (UUID(), %s, %s, %s)",
+                    (name, email, int(age))  # ensure age is integer
+                )
+
+    connection.commit()
     cursor.close()
 
 
 # ------------------------------
 # 6. Seed from CSV file
 # ------------------------------
-def seed_from_csv(connection, csv_file="user_data.csv"):
-    with open(csv_file, newline="") as f:
-        reader = csv.DictReader(f)
-        for row in reader:
-            insert_data(connection, row)
+# def seed_from_csv(connection, csv_file="user_data.csv"):
+#    with open(csv_file, newline="") as f:
+#        reader = csv.DictReader(f)
+#       for row in reader:
+#            insert_data(connection, row)
 
 
 # ------------------------------
