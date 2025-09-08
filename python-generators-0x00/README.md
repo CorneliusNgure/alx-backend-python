@@ -170,8 +170,10 @@ def paginate_users(page_size, offset):
     rows = cursor.fetchall()
     connection.close()
     return rows
+```
 
 
+```bash
 (venv) faithokoth@Faiths-MacBook-Pro python-generators-0x00 % cat 3-main.py
 #!/usr/bin/python3
 import sys
@@ -201,7 +203,8 @@ except BrokenPipeError:
 {'user_id': '01187f09-72be-4924-8a2d-150645dcadad', 'name': 'Jonathon Jones', 'email': 'Jody.Quigley-Ziemann33@yahoo.com', 'age': 116}
 
 {'user_id': '01ab6c5d-7ae2-4968-991a-d63e93d8d025', 'name': 'Forrest Heaney', 'email': 'Albert51@hotmail.com', 'age': 104}
-(venv) faithokoth@Faiths-MacBook-Pro python-generators-0x00 % ```
+(venv) faithokoth@Faiths-MacBook-Pro python-generators-0x00 %
+```
 
 ---
 
