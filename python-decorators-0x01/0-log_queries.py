@@ -1,5 +1,7 @@
 import sqlite3
 import functools
+from datetime import datetime
+
 
 #### decorator to log SQL queries
 def log_queries(func):
@@ -10,7 +12,7 @@ def log_queries(func):
             query = args[0]
         else:
             query = kwargs.get("query", "<no query>")
-        print(f"[LOG] Executing SQL Query: {query}")
+        print(f"[{datetime.now()}] Executing SQL Query: {query}")
         return func(*args, **kwargs)
     return wrapper
 
@@ -25,7 +27,6 @@ def fetch_all_users(query):
     return results
 
 
-### fetch users while logging the query
+#### fetch users while logging the query
 users = fetch_all_users(query="SELECT * FROM users")
 print(users)
-
