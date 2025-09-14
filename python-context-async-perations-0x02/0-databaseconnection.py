@@ -17,3 +17,20 @@ class DatabaseConnection:
         if self.conn:
             self.conn.close()
         return False
+
+# Usage
+if __name__ == "__main__":
+    db_path = "example_users.db"
+    with sqlite3.connect(db_path) as conn:
+        cur = conn.cursor()
+        cur.execute("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, name TEXT)")
+        cur.execute("DELETE FROM users")
+        cur.executemany("INSERT INTO users (name) VALUES (?)", [("Alice",), ("Bob",), ("Charlie",)])
+        conn.commit()
+
+    # Use custom context manager to run a query
+    with DatabaseConnection(db_path) as cursor:
+        cursor.execute("SELECT * FROM users")
+        results = cursor.fetchall()
+        for row in results:
+            print(row)
