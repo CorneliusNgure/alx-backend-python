@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
+"""Testing patterns such as mocking, parametrizations and fixtures"""
+
+
 import unittest
 from unittest.mock import patch, Mock
 from parameterized import parameterized
 from utils import access_nested_map, get_json, memoize
-
-"""Common testing patterns such as mocking, parametrizations and fixtures"""
 
 
 class TestAccessNestedMap(unittest.TestCase):
