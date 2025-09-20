@@ -4,7 +4,7 @@ Views for the chats app.
 Provides API endpoints for managing conversations and messages.
 """
 
-from rest_framework import viewsets, status
+from rest_framework import viewsets, status, filters
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
@@ -26,6 +26,8 @@ class ConversationViewSet(viewsets.ModelViewSet):
 
     serializer_class = ConversationSerializer
     permission_classes = [IsAuthenticated]
+    filter_backends = [filters.SearchFilter]
+    search_fields = ["participants__email"]
 
     def get_queryset(self):
         """
@@ -75,6 +77,8 @@ class MessageViewSet(viewsets.ModelViewSet):
 
     serializer_class = MessageSerializer
     permission_classes = [IsAuthenticated]
+    filter_backends = [filters.SearchFilter]
+    search_fields = ["message_body"]
 
     def get_queryset(self):
         """
