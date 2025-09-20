@@ -7,7 +7,6 @@ Unit tests for the client.GithubOrgClient class.
 """
 
 import unittest
-from unittest import TestCase
 from unittest.mock import patch, PropertyMock, Mock
 from parameterized import parameterized
 from client import GithubOrgClient
@@ -15,7 +14,7 @@ from fixtures import TEST_PAYLOAD
 from parameterized import parameterized_class
 
 
-class TestGithubOrgClient(TestCase):
+class TestGithubOrgClient(unittest.TestCase):
     """Unit tests for GithubOrgClient."""
 
     @parameterized.expand([
@@ -104,7 +103,8 @@ class TestGithubOrgClient(TestCase):
         """
         result = GithubOrgClient.has_license(repo, license_key)
         self.assertEqual(result, expected)
-  
+
+
 @parameterized_class([
     {
         "org_payload": TEST_PAYLOAD[0][0],
@@ -128,7 +128,7 @@ class TestGithubOrgClient(TestCase):
         ],
     }
 ])
-class TestIntegrationGithubOrgClient(TestCase):
+class TestIntegrationGithubOrgClient(unittest.TestCase):
     """Integration tests for GithubOrgClient.public_repos with fixtures."""
 
     @classmethod
