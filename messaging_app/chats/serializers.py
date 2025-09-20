@@ -15,10 +15,11 @@ class UserSerializer(serializers.ModelSerializer):
     """
     Serializer for CustomUser model.
 
-    Exposes key fields like user_id, email, phone_number, role, and
-    created_at. Used for both listing and embedding within other
-    serializers.
+    Adds custom validation for email to demonstrate usage of
+    serializers.CharField and serializers.ValidationError.
     """
+
+    email = serializers.CharField()
 
     class Meta:
         model = CustomUser
@@ -31,6 +32,16 @@ class UserSerializer(serializers.ModelSerializer):
         ]
         read_only_fields = ["user_id", "created_at"]
 
+    def validate_email(self, value):
+        """
+        Ensure email is not empty and contains '@'.
+        """
+        if not value or "@" not in value:
+            raise serializers.ValidationError(
+                "A valid email address is required."
+            )
+        return value
+
 
 class MessageSerializer(serializers.ModelSerializer):
     """
@@ -41,6 +52,7 @@ class MessageSerializer(serializers.ModelSerializer):
 
     sender = UserSerializer(read_only=True)
     recipient = UserSerializer(read_only=True)
+    message_body = serializers.CharField()
 
     class Meta:
         model = Message
@@ -52,6 +64,16 @@ class MessageSerializer(serializers.ModelSerializer):
             "sent_at",
         ]
         read_only_fields = ["message_id", "sent_at"]
+
+    def validate_message_body(self, value):
+        """
+        Ensure message body is not empty.
+        """
+        if not value.strip():
+            raise serializers.ValidationError(
+                "Message body cannot be empty."
+            )
+        return value
 
 
 class ConversationSerializer(serializers.ModelSerializer):
@@ -78,9 +100,6 @@ class ConversationSerializer(serializers.ModelSerializer):
     def get_messages(self, obj):
         """
         Return all messages linked to this conversation.
-
-        Fetches messages by checking if sender and recipient are in
-        the participants list.
         """
         participants = obj.participants.all()
         messages = Message.objects.filter(
@@ -88,3 +107,4 @@ class ConversationSerializer(serializers.ModelSerializer):
             recipient__in=participants
         ).order_by("sent_at")
         return MessageSerializer(messages, many=True).data
+
