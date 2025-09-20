@@ -105,42 +105,33 @@ class TestGithubOrgClient(unittest.TestCase):
         self.assertEqual(result, expected)
 
 
-@parameterized_class([
-    {
-        "org_payload": TEST_PAYLOAD[0][0],
-        "repos_payload": TEST_PAYLOAD[0][1],
-        "expected_repos": [
-            "episodes.dart",
-            "cpp-netlib",
-            "dagger",
-            "ios-webkit-debug-proxy",
-            "google.github.io",
-            "kratu",
-            "build-debian-cloud",
-            "traceur-compiler",
-            "firmata.py",
-        ],
-        "apache2_repos": [
-            "dagger",
-            "kratu",
-            "traceur-compiler",
-            "firmata.py",
-        ],
-    }
-])
+@parameterized_class([{
+    "org_payload": TEST_PAYLOAD[0][0],
+    "repos_payload": TEST_PAYLOAD[0][1],
+    "expected_repos": [
+        "episodes.dart",
+        "cpp-netlib",
+        "dagger",
+        "ios-webkit-debug-proxy",
+        "google.github.io",
+        "kratu",
+        "build-debian-cloud",
+        "traceur-compiler",
+        "firmata.py",
+    ],
+    "apache2_repos": [
+        "dagger",
+        "kratu",
+        "traceur-compiler",
+        "firmata.py",
+    ],
+}])
 class TestIntegrationGithubOrgClient(unittest.TestCase):
     """Integration tests for GithubOrgClient.public_repos with fixtures."""
 
     @classmethod
     def setUpClass(cls):
         """Start patching requests.get and set up mock side_effect."""
-        # promote instance attrs (from parameterized_class) to class attrs
-        dummy = cls()
-        cls.org_payload = dummy.org_payload
-        cls.repos_payload = dummy.repos_payload
-        cls.expected_repos = dummy.expected_repos
-        cls.apache2_repos = dummy.apache2_repos
-
         cls.get_patcher = patch("requests.get")
         mock_get = cls.get_patcher.start()
 
