@@ -92,7 +92,7 @@ def insert_data(connection, csv_file):
             if count == 0:
                 cursor.execute(
                     "INSERT INTO user_data (user_id, name, email, age) VALUES (UUID(), %s, %s, %s)",
-                    (name, email, int(age))  # ensure age is integer
+                    (name, email, int(age))
                 )
 
     connection.commit()
