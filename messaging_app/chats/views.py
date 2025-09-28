@@ -8,7 +8,7 @@ from rest_framework import viewsets, status, filters
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
-
+from .permissions import IsParticipantOfConversation
 from .models import Conversation, Message, CustomUser
 from .serializers import (
     ConversationSerializer,
@@ -25,7 +25,7 @@ class ConversationViewSet(viewsets.ModelViewSet):
     """
 
     serializer_class = ConversationSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsParticipantOfConversation]
     filter_backends = [filters.SearchFilter]
     search_fields = ["participants__email"]
 
@@ -76,7 +76,7 @@ class MessageViewSet(viewsets.ModelViewSet):
     """
 
     serializer_class = MessageSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsParticipantOfConversation]
     filter_backends = [filters.SearchFilter]
     search_fields = ["message_body"]
 
