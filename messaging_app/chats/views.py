@@ -6,14 +6,14 @@ Provides API endpoints for managing conversations and messages.
 
 from rest_framework import viewsets, status, filters
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
+from django_filters.rest_framework import DjangoFilterBackend
+
 from .permissions import IsParticipantOfConversation
 from .models import Conversation, Message, CustomUser
-from .serializers import (
-    ConversationSerializer,
-    MessageSerializer,
-)
+from .serializers import ConversationSerializer, MessageSerializer
+from .filters import MessageFilter
+from .pagination import MessagePagination
 
 
 class ConversationViewSet(viewsets.ModelViewSet):
@@ -78,7 +78,10 @@ class MessageViewSet(viewsets.ModelViewSet):
     serializer_class = MessageSerializer
     permission_classes = [IsParticipantOfConversation]
     filter_backends = [filters.SearchFilter]
+    pagination_class = MessagePagination
+    filter_backends = [filters.SearchFilter, DjangoFilterBackend]
     search_fields = ["message_body"]
+    filterset_class = MessageFilter
 
     def get_queryset(self):
         """
