@@ -42,11 +42,13 @@ INSTALLED_APPS = [
     # third-party
     'rest_framework',
     'rest_framework.authtoken',
-    'messaging_app.chats',
-
+    
     # local apps
     'chats',
 ]
+
+AUTH_USER_MODEL = "chats.CustomUser"
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -143,8 +145,6 @@ SIMPLE_JWT = {
     'AUTH_HEADER_TYPES': ('Bearer',),
 }
 
-
-AUTH_USER_MODEL = "chats.CustomUser"
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/

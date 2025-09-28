@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path, include
-from messaging_app.chats import auth
+from chats import auth
 
 
 """
