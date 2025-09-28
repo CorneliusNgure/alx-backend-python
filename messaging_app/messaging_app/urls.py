@@ -1,12 +1,20 @@
-"""
-Project-level URL configuration for messaging_app.
-"""
-
 from django.contrib import admin
 from django.urls import path, include
+from messaging_app.chats import auth
 
+
+"""
+Project-level config for the messaging_app app.
+"""
 urlpatterns = [
     path("admin/", admin.site.urls),
+
+    # Browsable API login/logout (optional)
     path("api-auth/", include("rest_framework.urls")),
-    path("api/", include("chats.urls")),
+
+    # Chats API
+    path("api/chats/", include("chats.urls")),
+
+    # JWT auth endpoints
+    path("api/auth/", include(auth.urlpatterns)),
 ]
