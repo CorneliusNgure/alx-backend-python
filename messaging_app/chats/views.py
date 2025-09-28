@@ -120,7 +120,7 @@ class MessageViewSet(viewsets.ModelViewSet):
         if recipient not in conversation.participants.all():
             return Response(
                 {"error": "Recipient must be part of the conversation."},
-                status=status.HTTP_400_BAD_REQUEST,
+                status=status.HTTP_403_FORBIDDEN,
             )
 
         message = Message.objects.create(
