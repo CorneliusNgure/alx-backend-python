@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    {% for reply in message.replies.all %}
+  <div style="margin-left: 20px;">
+    <p><strong>{{ reply.sender }}:</strong> {{ reply.content }}</p>
+    {% include "messaging/thread.html" with message=reply %}
+  </div>
+{% endfor %}
+
+</body>
+</html>

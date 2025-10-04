@@ -20,3 +20,4 @@ def inbox(request):
         .prefetch_related('replies')
     )
     return render(request, "messaging/inbox.html", {"messages": messages})
+    
