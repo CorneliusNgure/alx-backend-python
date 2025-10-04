@@ -20,4 +20,12 @@ def inbox(request):
         .prefetch_related('replies')
     )
     return render(request, "messaging/inbox.html", {"messages": messages})
+
+@login_required
+def user_messages(request):
+    """
+    Fetch messages sent by the logged-in user.
+    """
+    messages = Message.objects.filter(sender=request.user)
+    return render(request, "messaging/user_messages.html", {"messages": messages})
     
