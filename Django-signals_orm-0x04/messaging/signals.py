@@ -1,7 +1,8 @@
-from django.db.models.signals import post_save, pre_save
+from django.db.models.signals import post_save, pre_save, post_delete
 from django.dispatch import receiver
 from django.utils import timezone
 from .models import Message, Notification, MessageHistory
+from django.contrib.auth.models import User
 
 
 @receiver(post_save, sender=Message)
@@ -18,19 +19,31 @@ def log_message_edit(sender, instance, **kwargs):
     Before saving a Message, log its old content into MessageHistory
     if it's being edited.
     """
-    if instance.pk:  # message exists
+    if instance.pk:
         try:
             old_message = Message.objects.get(pk=instance.pk)
         except Message.DoesNotExist:
             return
 
         if old_message.content != instance.content:
-            # Save the old content in MessageHistory
             MessageHistory.objects.create(
                 message=old_message,
                 old_content=old_message.content,
                 edited_by=instance.edited_by
             )
-            # Mark as edited
             instance.edited = True
             instance.edited_at = timezone.now()
+
+
+@receiver(post_delete, sender=User)
+def delete_related_data(sender, instance, **kwargs):
+    """
+    Deletes messages, notifications, and histories when a User is deleted.
+    """
+
+    Message.objects.filter(sender=instance).delete()
+    Message.objects.filter(receiver=instance).delete()
+
+    Notification.objects.filter(user=instance).delete()
+
+    MessageHistory.objects.filter(edited_by=instance).delete()
