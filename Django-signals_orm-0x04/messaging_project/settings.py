@@ -69,6 +69,9 @@ TEMPLATES = [
     },
 ]
 
+LOGIN_URL = '/accounts/login/'
+LOGIN_REDIRECT_URL = '/messages/inbox/'
+
 WSGI_APPLICATION = 'messaging_project.wsgi.application'
 
 

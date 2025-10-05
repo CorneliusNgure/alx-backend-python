@@ -12,6 +12,7 @@ def delete_user(request):
     user.delete()
     return redirect("/")
 
+@login_required
 def inbox(request):
     messages = (
         Message.objects
@@ -26,7 +27,7 @@ def user_messages(request):
     """
     Fetch messages sent by the logged-in user.
     """
-    messages = Message.objects.filter(sender=request.user)
+    messages = Message.objects.filter(sender=request.user).only("id", "content", "timestamp")
     return render(request, "messaging/user_messages.html", {"messages": messages})
 
 @login_required
