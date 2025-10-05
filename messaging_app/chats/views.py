@@ -8,6 +8,9 @@ from rest_framework import viewsets, status, filters
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
+
 
 from .permissions import IsParticipantOfConversation
 from .models import Conversation, Message, CustomUser
@@ -67,6 +70,7 @@ class ConversationViewSet(viewsets.ModelViewSet):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
+@method_decorator(cache_page(60), name='list')
 class MessageViewSet(viewsets.ModelViewSet):
     """
     API endpoint for managing messages.
