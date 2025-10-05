@@ -28,4 +28,10 @@ def user_messages(request):
     """
     messages = Message.objects.filter(sender=request.user)
     return render(request, "messaging/user_messages.html", {"messages": messages})
+
+@login_required
+def unread_inbox(request):
+    """ Using custom manager + .for_usr(user)"""
+    messages = Message.unread.unread_for_user(request.user)
+    return render(request, "messaging/unread_inbox.html", {"messages": messages})
     
